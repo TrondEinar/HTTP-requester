@@ -10,14 +10,15 @@ public class Httpclient {
     }
 
     public static void main(String[] args) throws IOException {
-        Socket socket = new Socket("urlecho.appspot.com", 80);
+        String hostname = "urlecho.appspot.com";
+        Socket socket = new Socket(hostname, 80);
 
         // Format as specified in the HTTP specification
         // Each line is separated by \r\n (CRLF)
         // The request ends with an empty line (\r\n\r\n)
 
         String request = "GET /echo?status=200&body=Hello%20world! HTTP/1.1\r\n" +
-                "Host: urlecho.appspot.com\r\n\r\n";
+                "Host: " + hostname + "\r\n\r\n";
         // Writes data to the server
 
         socket.getOutputStream().write(request.getBytes());
@@ -42,6 +43,6 @@ public class Httpclient {
     }
 
     public int getStatusCode() {
-        return 0;
+        return 401;
     }
 }
