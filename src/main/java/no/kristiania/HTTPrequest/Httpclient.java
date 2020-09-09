@@ -5,13 +5,8 @@ import java.net.Socket;
 
 public class Httpclient {
 
-    public Httpclient(String hostname, int port, String requestTarget) {
-
-    }
-
-    public static void main(String[] args) throws IOException {
-        String hostname = "urlecho.appspot.com";
-        Socket socket = new Socket(hostname, 80);
+    public Httpclient(String hostname, int port, String requestTarget) throws IOException {
+        Socket socket = new Socket(hostname, port);
 
         // Format as specified in the HTTP specification
         // Each line is separated by \r\n (CRLF)
@@ -27,13 +22,24 @@ public class Httpclient {
         // (c = socket.getInputStream().read()) != -1 means
         // Assign the next value of "read()" to c and check if it´s not -1
         // (-1 means end of data)
-
+        StringBuilder line = new StringBuilder();
         int c;
         while((c = socket.getInputStream().read())!= -1) {
-
-        // Treat each byte as a character ("(char)") and print it to the console
-            System.out.print((char)c);
+            // Stop reading at newline
+            if (c == '\n') {
+                break;
+            }
+            // Treat each byte as a character ("(char)") and print it to the console
+            line.append((char)c);
         }
+        System.out.println(line);
+
+    }
+
+    public static void main(String[] args) throws IOException {
+        String hostname = "urlecho.appspot.com";
+        int port = 80;
+
     }
 
     public int getResponseCode() {
