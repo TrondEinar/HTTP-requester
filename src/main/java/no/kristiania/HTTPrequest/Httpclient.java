@@ -5,6 +5,9 @@ import java.net.Socket;
 
 public class Httpclient {
 
+
+    private final int responseCode;
+
     public Httpclient(String hostname, int port, String requestTarget) throws IOException {
         Socket socket = new Socket(hostname, port);
 
@@ -33,6 +36,8 @@ public class Httpclient {
             line.append((char)c);
         }
         System.out.println(line);
+        String[] responseLineParts = line.toString().split(" ");
+        responseCode = Integer.parseInt(responseLineParts[1]);
 
     }
 
@@ -43,12 +48,6 @@ public class Httpclient {
     }
 
     public int getResponseCode() {
-
-        return 200;
-
-    }
-
-    public int getStatusCode() {
-        return 401;
+        return responseCode;
     }
 }
