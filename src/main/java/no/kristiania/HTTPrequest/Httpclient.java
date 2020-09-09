@@ -36,6 +36,12 @@ public class Httpclient {
     }
 
     public int getResponseCode() {
+
+        return 200;
+
+    }
+
+    public int getStatusCode() {
         return 0;
     }
 }

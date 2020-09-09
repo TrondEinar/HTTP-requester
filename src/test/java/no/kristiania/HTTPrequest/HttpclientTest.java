@@ -12,4 +12,10 @@ class HttpclientTest {
         assertEquals(200, httpClient.getResponseCode());
     }
 
+    @Test
+    void shouldGetFailureResponseCode() {
+        Httpclient client = new Httpclient("urlecho.appspot.com", 80, "/echo?status=401");
+        assertEquals(401, client.getStatusCode());
+    }
+
 }
