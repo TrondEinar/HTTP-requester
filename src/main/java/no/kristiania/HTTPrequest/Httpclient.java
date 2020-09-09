@@ -36,6 +36,6 @@ public class Httpclient {
     }
 
     public int getResponseCode() {
-        return 200;
+        return 0;
     }
 }
