@@ -2,6 +2,7 @@ package no.kristiania.HTTPrequest;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.http.HttpClient;
 
 public class Httpclient {
 
@@ -15,7 +16,7 @@ public class Httpclient {
         // Each line is separated by \r\n (CRLF)
         // The request ends with an empty line (\r\n\r\n)
 
-        String request = "GET /echo?status=200&body=Hello%20world! HTTP/1.1\r\n" +
+        String request = "GET " + requestTarget + " HTTP/1.1\r\n" +
                 "Host: " + hostname + "\r\n\r\n";
         // Writes data to the server
 
@@ -44,10 +45,13 @@ public class Httpclient {
     public static void main(String[] args) throws IOException {
         String hostname = "urlecho.appspot.com";
         int port = 80;
+        String requestTarget = "/echo?status=200&body=Hello%20world!";
+        new Httpclient(hostname, port, requestTarget);
 
     }
 
     public int getResponseCode() {
+
         return responseCode;
     }
 }

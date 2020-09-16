@@ -15,7 +15,7 @@ class HttpclientTest {
     }
 
     @Test
-    void shouldGetFailureResponseCode() throws IOException {
+    void shouldReadFailureResponseCode() throws IOException {
         Httpclient httpClient = new Httpclient("urlecho.appspot.com", 80, "/echo?status=401");
         assertEquals(401, httpClient.getResponseCode());
     }
