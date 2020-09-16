@@ -2,11 +2,13 @@ package no.kristiania.HTTPrequest;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Httpclient {
 
-
     private final int responseCode;
+    private Map<String, String> responseHeaders = new HashMap<>();
 
     public Httpclient(String hostname, int port, String requestTarget) throws IOException {
         Socket socket = new Socket(hostname, port);
@@ -25,6 +27,15 @@ public class Httpclient {
         System.out.println(line);
         String[] responseLineParts = line.toString().split(" ");
         responseCode = Integer.parseInt(responseLineParts[1]);
+
+        String headerLine;
+        while (!(headerLine = readLine(socket)).isEmpty()){
+            System.out.println(headerLine);
+            int colonPos = headerLine.indexOf(':');
+            String name = headerLine.substring(0, colonPos);
+            String value = headerLine.substring(colonPos+1).trim();
+            responseHeaders.put(name, value);
+        }
     }
 
         // Reads one BYTE at a time, until there is nothing more to read
@@ -38,6 +49,7 @@ public class Httpclient {
         while ((c = socket.getInputStream().read()) != -1) {
             // Stop reading at newline
             if (c == '\n') {
+                socket.getInputStream().read();
                 break;
             }
             // Treat each byte as a character ("(char)") and print it to the response
@@ -57,5 +69,9 @@ public class Httpclient {
     public int getResponseCode() {
 
         return responseCode;
+    }
+
+    public String getResponseHeader(String headerName) {
+        return responseHeaders.get(headerName);
     }
 }
