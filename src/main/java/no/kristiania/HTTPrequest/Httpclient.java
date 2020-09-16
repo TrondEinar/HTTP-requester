@@ -2,7 +2,6 @@ package no.kristiania.HTTPrequest;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.net.http.HttpClient;
 
 public class Httpclient {
 
@@ -21,25 +20,30 @@ public class Httpclient {
         // Writes data to the server
 
         socket.getOutputStream().write(request.getBytes());
+        String line = readLine(socket);
+
+        System.out.println(line);
+        String[] responseLineParts = line.toString().split(" ");
+        responseCode = Integer.parseInt(responseLineParts[1]);
+    }
 
         // Reads one BYTE at a time, until there is nothing more to read
         // (c = socket.getInputStream().read()) != -1 means
         // Assign the next value of "read()" to c and check if it´s not -1
         // (-1 means end of data)
+
+    private String readLine(Socket socket) throws IOException {
         StringBuilder line = new StringBuilder();
         int c;
-        while((c = socket.getInputStream().read())!= -1) {
+        while ((c = socket.getInputStream().read()) != -1) {
             // Stop reading at newline
             if (c == '\n') {
                 break;
             }
-            // Treat each byte as a character ("(char)") and print it to the console
-            line.append((char)c);
+            // Treat each byte as a character ("(char)") and print it to the response
+            line.append((char) c);
         }
-        System.out.println(line);
-        String[] responseLineParts = line.toString().split(" ");
-        responseCode = Integer.parseInt(responseLineParts[1]);
-
+        return line.toString();
     }
 
     public static void main(String[] args) throws IOException {
